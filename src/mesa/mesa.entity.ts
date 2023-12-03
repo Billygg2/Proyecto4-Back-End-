@@ -12,6 +12,9 @@ export class MesaEntity {
   @Column({ type: 'integer', nullable: false })
   cantidad_personas: number;
 
+  @Column({ type: 'integer', nullable: false })
+  numero_de_mesa: number;
+
   @Column({ type: 'boolean', default: true, nullable: false })
   estado: boolean;
 
@@ -21,11 +24,8 @@ export class MesaEntity {
   @Column({ type: 'boolean', default: false, nullable: false })
   esVip: boolean;
   
-  @ManyToMany(() => ReservaEntity, reserva => reserva.id_reserva)
-  @JoinTable({
-    name: 'detalle_reserva',
-    joinColumn: { name: 'id_mesa', referencedColumnName: 'id_mesa' },
-    inverseJoinColumn: { name: 'id_reserva', referencedColumnName: 'id_reserva' }
-  })
-  reservas: ReservaEntity[];
+  @OneToMany(() => DetalleReservaEntity, detalleVenta => detalleVenta.mesa)
+  mesa_detalle: DetalleReservaEntity[]
+
+
 }

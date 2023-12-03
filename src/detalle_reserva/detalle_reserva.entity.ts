@@ -11,5 +11,12 @@ export class DetalleReservaEntity {
   @Column({ type: 'double precision', nullable: false })
   costo_total: number;
 
+  @ManyToOne(() => ReservaEntity, { nullable: false})
+  @JoinColumn({name: 'reserva'})
+  reserva: ReservaEntity;
+
+  @ManyToOne(() => MesaEntity, { nullable: false})
+  @JoinColumn({name: 'mesa'})
+  mesa: MesaEntity;
 
 }

@@ -36,7 +36,7 @@ export class UsuarioEntity {
     })
     tipo_usuarioId: TipoUsuarioEntity[];
 
-    @OneToMany(() => ReservaEntity, reserva => reserva.usuarioId)
+    @OneToMany(() => ReservaEntity, reserva => reserva.usuario)
     reserva: ReservaEntity[]
 
     @BeforeInsert()

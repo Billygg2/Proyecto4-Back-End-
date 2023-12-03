@@ -1,5 +1,4 @@
 import { DetalleReservaEntity } from 'src/detalle_reserva/detalle_reserva.entity';
-import { MesaEntity } from 'src/mesa/mesa.entity';
 import { UsuarioEntity } from 'src/usuario/usuario.entity';
 import { Entity, PrimaryGeneratedColumn, Column, JoinTable, JoinColumn, ManyToMany, OneToMany,ManyToOne } from 'typeorm';
 
@@ -8,10 +7,10 @@ export class ReservaEntity {
   @PrimaryGeneratedColumn()
   id_reserva: number;
 
-  @Column({ type: 'date', nullable: false })
+  @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   fecha_reserva: Date;
 
-  @Column({ type: 'date', nullable: false })
+  @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   fecha_registro_reserva: Date;
 
   @Column({ type: 'boolean', default: false, nullable: false })
@@ -19,6 +18,9 @@ export class ReservaEntity {
 
   @ManyToOne(() => UsuarioEntity, { nullable: false})
   @JoinColumn({name: 'id_usuario'})
-  usuarioId: UsuarioEntity;
+  usuario: UsuarioEntity;
+
+  @OneToMany(() => DetalleReservaEntity, detalleVenta => detalleVenta.reserva)
+  reserva_detalle: DetalleReservaEntity[]
 
 }

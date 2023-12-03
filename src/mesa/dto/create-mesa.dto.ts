@@ -5,6 +5,10 @@ export class CreateMesaDto {
   @IsNumber({}, { message: 'El campo cantidad_personas debe ser un número' })
   cantidad_personas: number;
 
+  @IsNotEmpty({ message: 'El campo numero_de_mesa no puede estar vacío' })
+  @IsNumber({}, { message: 'El campo numero_de_mesa debe ser un número' })
+  numero_de_mesa: number;
+
   @IsNotEmpty({ message: 'El campo estado no puede estar vacío' })
   @IsBoolean({ message: 'El campo estado debe ser un valor booleano' })
   estado: boolean;
