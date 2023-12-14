@@ -8,7 +8,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-export class CreateUsuarioDto {
+export class NuevoUsuarioDto {
   @IsNotEmpty({ message: 'El campo nombres no puede estar vacío' })
   @IsString({ message: 'El campo nombres debe ser una cadena de texto' })
   nombres: string;

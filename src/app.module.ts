@@ -14,6 +14,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { MesaModule } from './mesa/mesa.module';
 import { ReservaModule } from './reserva/reserva.module';
 import { TipoUsuarioModule } from './tipo_usuario/tipo_usuario.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { TipoUsuarioModule } from './tipo_usuario/tipo_usuario.module';
     TipoUsuarioModule,
     MesaModule,
     ReservaModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
