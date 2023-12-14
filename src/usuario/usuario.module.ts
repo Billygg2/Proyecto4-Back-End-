@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,6 +15,5 @@ import { TipoUsuarioModule } from 'src/tipo_usuario/tipo_usuario.module';
   controllers: [UsuarioController],
   providers: [UsuarioService],
   exports: [UsuarioService],
-
 })
 export class UsuarioModule {}

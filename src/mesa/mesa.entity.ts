@@ -1,8 +1,6 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+/* eslint-disable prettier/prettier */
 import { ReservaEntity } from 'src/reserva/reserva.entity';
-import { DetalleReservaEntity } from 'src/detalle_reserva/detalle_reserva.entity';
-import { UsuarioEntity } from 'src/usuario/usuario.entity';
-
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'mesa' })
 export class MesaEntity {
@@ -23,9 +21,10 @@ export class MesaEntity {
 
   @Column({ type: 'boolean', default: false, nullable: false })
   esVip: boolean;
-  
-  @OneToMany(() => DetalleReservaEntity, detalleVenta => detalleVenta.mesa)
-  mesa_detalle: DetalleReservaEntity[]
 
+  @Column({ type: 'decimal', nullable: false })
+  costo_mesa: number;
 
+  @OneToMany(() => ReservaEntity, (reserva) => reserva.mesa)
+  reserva: ReservaEntity[];
 }

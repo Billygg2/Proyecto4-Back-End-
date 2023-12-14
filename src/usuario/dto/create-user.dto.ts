@@ -1,4 +1,14 @@
-import { IsString, IsEmail, IsNotEmpty, MinLength, IsBoolean, IsNumber, MaxLength } from 'class-validator';
+/* eslint-disable prettier/prettier */
+import {
+  IsString,
+  IsEmail,
+  IsNotEmpty,
+  MinLength,
+  IsBoolean,
+  IsNumber,
+  MaxLength,
+  IsPositive,
+} from 'class-validator';
 
 export class CreateUsuarioDto {
   @IsNotEmpty({ message: 'El campo nombres no puede estar vacío' })
@@ -8,11 +18,16 @@ export class CreateUsuarioDto {
   @IsNotEmpty({ message: 'El campo apellidos no puede estar vacío' })
   @IsString({ message: 'El campo apellidos debe ser una cadena de texto' })
   apellidos: string;
-  
+
   @IsNotEmpty({ message: 'El campo contraseña no puede estar vacío' })
   @MinLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
   @MaxLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
   contrasenia: string;
+
+  @IsNotEmpty()
+  @IsPositive()
+  @IsNumber()
+  saldo: number;
 
   @IsNotEmpty({ message: 'El campo correo no puede estar vacío' })
   @IsEmail({}, { message: 'El formato del correo electrónico no es válido' })

@@ -1,6 +1,13 @@
-import { DetalleReservaEntity } from 'src/detalle_reserva/detalle_reserva.entity';
+/* eslint-disable prettier/prettier */
+import { MesaEntity } from 'src/mesa/mesa.entity';
 import { UsuarioEntity } from 'src/usuario/usuario.entity';
-import { Entity, PrimaryGeneratedColumn, Column, JoinTable, JoinColumn, ManyToMany, OneToMany,ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity({ name: 'reserva' })
 export class ReservaEntity {
@@ -16,11 +23,17 @@ export class ReservaEntity {
   @Column({ type: 'boolean', default: false, nullable: false })
   estado: boolean;
 
-  @ManyToOne(() => UsuarioEntity, { nullable: false})
-  @JoinColumn({name: 'id_usuario'})
+  @Column({ type: 'decimal', nullable: false, default: 20.0 })
+  costo_reserva: number;
+
+  @Column({ type: 'decimal', nullable: false })
+  costo_total: number;
+
+  @ManyToOne(() => UsuarioEntity, { nullable: false })
+  @JoinColumn({ name: 'id_usuario' })
   usuario: UsuarioEntity;
 
-  @OneToMany(() => DetalleReservaEntity, detalleVenta => detalleVenta.reserva)
-  reserva_detalle: DetalleReservaEntity[]
-
+  @ManyToOne(() => MesaEntity, { nullable: false })
+  @JoinColumn({ name: 'mesa' })
+  mesa: MesaEntity;
 }

@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Patch,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { MesaEntity } from './mesa.entity';
@@ -24,13 +35,13 @@ export class MesaController {
   }
 
   @Delete(':id_mesa')
-  deleteMesa(@Param('id_mesa') id: number){
-      return this.mesaService.deleteMesa(id)
+  deleteMesa(@Param('id_mesa') id: number) {
+    return this.mesaService.deleteMesa(id);
   }
 
   @Patch(':id_mesa')
   @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
-  updateMesa (@Param('id_mesa') id: number, @Body() mesa: UpdateMesaDto){
-      return this.mesaService.updateMesa(id, mesa)
+  updateMesa(@Param('id_mesa') id: number, @Body() mesa: UpdateMesaDto) {
+    return this.mesaService.updateMesa(id, mesa);
   }
 }

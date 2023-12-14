@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
@@ -11,5 +12,15 @@ async function bootstrap() {
   const port = +configService.get<number>(SERVER_PORT) || 3000;
   await app.listen(port);
   console.log(`listening on port ${await app.getUrl()}`);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true, //data basura
+      forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
 }
 bootstrap();

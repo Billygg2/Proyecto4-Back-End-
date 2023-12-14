@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MessageDto } from 'src/common/message.dto';
@@ -11,7 +15,7 @@ export class MesaService {
   constructor(
     @InjectRepository(MesaEntity)
     private readonly mesaRepository: Repository<MesaEntity>,
-  ) { }
+  ) {}
 
   async getMesaList(): Promise<MesaEntity[]> {
     const mesas = await this.mesaRepository.find();
@@ -27,7 +31,7 @@ export class MesaService {
       where: { numero_de_mesa },
     });
     if (exists) {
-      throw new BadRequestException('Mesa ya registrada');
+      throw new MessageDto('Mesa ya registrada');
     }
 
     const mesa = this.mesaRepository.create(createMesaDto);
@@ -37,16 +41,16 @@ export class MesaService {
   async getMesaById(id_mesa: number) {
     return await this.mesaRepository.findOne({
       where: {
-        id_mesa
-      }
-    })
+        id_mesa,
+      },
+    });
   }
 
   async deleteMesa(id_mesa: number) {
-    return this.mesaRepository.delete({ id_mesa })
+    return this.mesaRepository.delete({ id_mesa });
   }
 
   async updateMesa(id_mesa: number, mesa: UpdateMesaDto) {
-    this.mesaRepository.update({ id_mesa }, mesa)
+    this.mesaRepository.update({ id_mesa }, mesa);
   }
 }

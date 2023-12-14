@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TipoUsuarioController } from './tipo_usuario.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';

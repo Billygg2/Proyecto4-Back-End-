@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsBoolean, IsNumber, IsEnum } from 'class-validator';
 
 export class CreateMesaDto {

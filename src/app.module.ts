@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -12,7 +13,6 @@ import {
 import { UsuarioModule } from './usuario/usuario.module';
 import { MesaModule } from './mesa/mesa.module';
 import { ReservaModule } from './reserva/reserva.module';
-import { DetalleReservaModule } from './detalle_reserva/detalle_reserva.module';
 import { TipoUsuarioModule } from './tipo_usuario/tipo_usuario.module';
 
 @Module({
@@ -43,7 +43,6 @@ import { TipoUsuarioModule } from './tipo_usuario/tipo_usuario.module';
     TipoUsuarioModule,
     MesaModule,
     ReservaModule,
-    DetalleReservaModule,
   ],
   controllers: [],
   providers: [],
