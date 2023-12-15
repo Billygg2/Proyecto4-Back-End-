@@ -34,6 +34,6 @@ export class ReservaEntity {
   usuario: UsuarioEntity;
 
   @ManyToOne(() => MesaEntity, { nullable: false })
-  @JoinColumn({ name: 'mesa' })
+  @JoinColumn({ name: 'id_mesa' })
   mesa: MesaEntity;
 }

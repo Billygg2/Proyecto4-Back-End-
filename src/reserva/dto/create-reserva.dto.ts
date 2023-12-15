@@ -5,9 +5,6 @@ export class CreateReservaDto {
   @IsNotEmpty({ message: 'El campo fecha_reserva no puede estar vacío' })
   fecha_reserva: Date;
 
-  @IsNotEmpty({
-    message: 'El campo fecha_registro_reserva no puede estar vacío',
-  })
   fecha_registro_reserva: Date;
 
   @IsNotEmpty({ message: 'El campo estado no puede estar vacío' })

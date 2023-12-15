@@ -11,6 +11,7 @@ import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
 import { MessageDto } from 'src/common/message.dto';
 import { UsuarioEntity } from 'src/usuario/usuario.entity';
+import { MesaEntity } from 'src/mesa/mesa.entity';
 
 @Injectable()
 export class ReservaService {
@@ -19,10 +20,12 @@ export class ReservaService {
     private readonly reservaRepository: Repository<ReservaEntity>,
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
-  ) {}
+    @InjectRepository(MesaEntity)
+    private readonly mesaRepository: Repository<MesaEntity>,
+  ) { }
 
   async getReservaList(): Promise<ReservaEntity[]> {
-    const reservas = await this.reservaRepository.find();
+    const reservas = await this.reservaRepository.find({relations: ['usuario','mesa']});
     if (!reservas.length) {
       throw new NotFoundException('No existe un listado de reservas');
     }
@@ -42,7 +45,7 @@ export class ReservaService {
   }
 
   async createReserva(reserva: CreateReservaDto): Promise<any> {
-    const { fecha_reserva, costo_total, id_usuario } = reserva;
+    const { fecha_reserva, costo_total, id_usuario, id_mesa } = reserva;
 
     const exists = await this.reservaRepository.findOne({
       where: [{ fecha_reserva: fecha_reserva }],
@@ -60,8 +63,13 @@ export class ReservaService {
       throw new BadRequestException('El usuario no existe');
     }
 
-    console.log(user.saldo);
-    console.log(costo_total);
+    const table = await this.mesaRepository.findOne({
+      where: { id_mesa: id_mesa },
+    });
+
+    if (!table) {
+      throw new BadRequestException('El usuario no existe');
+    }
 
     if (user.saldo < costo_total) {
       throw new Error('Saldo insuficiente');
@@ -70,9 +78,10 @@ export class ReservaService {
     user.saldo -= costo_total;
     await this.usuarioRepository.save(user);
 
-    reserva.id_usuario = user.id_usuario; // Asigna el id del usuario a la reserva
     const newReserva = this.reservaRepository.create(reserva);
     console.log(newReserva);
+    newReserva.usuario = user;
+    newReserva.mesa = table;
 
     await this.reservaRepository.save(newReserva);
 
