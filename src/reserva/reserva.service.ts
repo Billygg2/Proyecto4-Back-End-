@@ -19,7 +19,7 @@ export class ReservaService {
     private readonly reservaRepository: Repository<ReservaEntity>,
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
-  ) { }
+  ) {}
 
   async getReservaList(): Promise<ReservaEntity[]> {
     const reservas = await this.reservaRepository.find();
@@ -27,72 +27,54 @@ export class ReservaService {
       throw new NotFoundException('No existe un listado de reservas');
     }
     return reservas;
-  };
+  }
 
   async getReservaUserList(id_usuario): Promise<ReservaEntity[]> {
     const reservas = await this.reservaRepository.find({
       where: {
-        usuario: id_usuario
-      }
+        usuario: id_usuario,
+      },
     });
     if (!reservas.length) {
       throw new NotFoundException('No tiene reservas disponibles');
     }
     return reservas;
-  };
+  }
 
   async createReserva(reserva: CreateReservaDto): Promise<any> {
-    const { fecha_reserva } = reserva;
+    const { fecha_reserva, costo_total, id_usuario } = reserva;
+
     const exists = await this.reservaRepository.findOne({
       where: [{ fecha_reserva: fecha_reserva }],
     });
-    const auxVar = reserva.costo_total;
 
     if (exists) {
       throw new BadRequestException(new MessageDto('Reserva ya registrado'));
     }
-    const usuario_id = reserva.id_usuario;
+
     const user = await this.usuarioRepository.findOne({
-      where: { id_usuario: usuario_id },
+      where: { id_usuario: id_usuario },
     });
 
     if (!user) {
       throw new BadRequestException('El usuario no existe');
     }
 
-    const queryRunner =
-      this.reservaRepository.manager.connection.createQueryRunner();
+    console.log(user.saldo);
+    console.log(costo_total);
 
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      const usuario = await this.usuarioRepository.findOne({
-        where: { id_usuario: usuario_id },
-      });
-
-      if (!usuario || usuario.saldo < auxVar) {
-        throw new Error('Saldo insuficiente');
-      }
-
-      usuario.saldo -= auxVar;
-      await queryRunner.manager.save(usuario);
-
-      const newReserva = this.reservaRepository.create(reserva);
-      await queryRunner.manager.save(newReserva);
-
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
+    if (user.saldo < costo_total) {
+      throw new Error('Saldo insuficiente');
     }
 
-    const nuevaReserva = new ReservaEntity();
-    nuevaReserva.fecha_reserva = fecha_reserva;
-    nuevaReserva.usuario = user;
+    user.saldo -= costo_total;
+    await this.usuarioRepository.save(user);
 
-    await this.reservaRepository.save(nuevaReserva);
+    reserva.id_usuario = user.id_usuario; // Asigna el id del usuario a la reserva
+    const newReserva = this.reservaRepository.create(reserva);
+    console.log(newReserva);
+
+    await this.reservaRepository.save(newReserva);
 
     return 'Reserva creada exitosamente';
   }

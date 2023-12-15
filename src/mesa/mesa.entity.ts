@@ -22,7 +22,7 @@ export class MesaEntity {
   @Column({ type: 'boolean', default: false, nullable: false })
   esVip: boolean;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'double precision', nullable: false })
   costo_mesa: number;
 
   @OneToMany(() => ReservaEntity, (reserva) => reserva.mesa)

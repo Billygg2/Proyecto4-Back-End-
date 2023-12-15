@@ -14,7 +14,7 @@ export class ReservaEntity {
   @PrimaryGeneratedColumn()
   id_reserva: number;
 
-  @Column({ type: 'date', default: () => 'CURRENT_DATE' })
+  @Column({ type: 'date' })
   fecha_reserva: Date;
 
   @Column({ type: 'date', default: () => 'CURRENT_DATE' })
@@ -23,10 +23,10 @@ export class ReservaEntity {
   @Column({ type: 'boolean', default: false, nullable: false })
   estado: boolean;
 
-  @Column({ type: 'decimal', nullable: false, default: 10.0 })
+  @Column({ type: 'double precision', nullable: false, default: 10.0 })
   costo_reserva: number;
 
-  @Column({ type: 'decimal' })
+  @Column({ type: 'double precision' })
   costo_total: number;
 
   @ManyToOne(() => UsuarioEntity, { nullable: false })

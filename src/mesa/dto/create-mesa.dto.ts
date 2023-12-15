@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsBoolean, IsNumber, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsBoolean, IsNumber, IsEnum, IsPositive } from 'class-validator';
 
 export class CreateMesaDto {
   @IsNotEmpty({ message: 'El campo cantidad_personas no puede estar vacío' })
@@ -21,4 +21,8 @@ export class CreateMesaDto {
   @IsNotEmpty({ message: 'El campo esVip no puede estar vacío' })
   @IsBoolean({ message: 'El campo esVip debe ser un valor booleano' })
   esVip: boolean;
+
+  @IsNumber()
+  @IsPositive()
+  costo_mesa: number;
 }

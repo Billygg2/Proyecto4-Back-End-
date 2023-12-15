@@ -33,7 +33,6 @@ export class CreateUsuarioDto {
   @MinLength(12, { message: 'La cedula debe tener al menos 12 caracteres' })
   identificacion: string;
 
-  @IsNotEmpty({ message: 'El campo estado no puede estar vacío' })
   @IsBoolean({ message: 'El campo estado debe ser un valor booleano' })
   estado: boolean;
 

@@ -6,6 +6,7 @@ import { ReservaEntity } from './reserva.entity';
 import { ReservaController } from './reserva.controller';
 import { UsuarioEntity } from 'src/usuario/usuario.entity';
 import { MesaEntity } from 'src/mesa/mesa.entity';
+import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MesaEntity } from 'src/mesa/mesa.entity';
       UsuarioEntity,
       MesaEntity
     ]),
+    UsuarioModule
   ],
   controllers: [ReservaController],
   providers: [ReservaService],
