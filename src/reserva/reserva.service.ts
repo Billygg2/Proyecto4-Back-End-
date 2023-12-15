@@ -19,7 +19,7 @@ export class ReservaService {
     private readonly reservaRepository: Repository<ReservaEntity>,
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
-  ) {}
+  ) { }
 
   async getReservaList(): Promise<ReservaEntity[]> {
     const reservas = await this.reservaRepository.find();
@@ -27,13 +27,26 @@ export class ReservaService {
       throw new NotFoundException('No existe un listado de reservas');
     }
     return reservas;
-  }
+  };
+
+  async getReservaUserList(id_usuario): Promise<ReservaEntity[]> {
+    const reservas = await this.reservaRepository.find({
+      where: {
+        usuario: id_usuario
+      }
+    });
+    if (!reservas.length) {
+      throw new NotFoundException('No tiene reservas disponibles');
+    }
+    return reservas;
+  };
 
   async createReserva(reserva: CreateReservaDto): Promise<any> {
     const { fecha_reserva } = reserva;
     const exists = await this.reservaRepository.findOne({
       where: [{ fecha_reserva: fecha_reserva }],
     });
+    const auxVar = reserva.costo_total;
 
     if (exists) {
       throw new BadRequestException(new MessageDto('Reserva ya registrado'));
@@ -58,11 +71,11 @@ export class ReservaService {
         where: { id_usuario: usuario_id },
       });
 
-      if (!usuario || usuario.saldo < reserva.costo_total) {
+      if (!usuario || usuario.saldo < auxVar) {
         throw new Error('Saldo insuficiente');
       }
 
-      usuario.saldo -= reserva.costo_total;
+      usuario.saldo -= auxVar;
       await queryRunner.manager.save(usuario);
 
       const newReserva = this.reservaRepository.create(reserva);

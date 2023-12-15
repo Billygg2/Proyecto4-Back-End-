@@ -23,10 +23,10 @@ export class ReservaEntity {
   @Column({ type: 'boolean', default: false, nullable: false })
   estado: boolean;
 
-  @Column({ type: 'decimal', nullable: false, default: 20.0 })
+  @Column({ type: 'decimal', nullable: false, default: 10.0 })
   costo_reserva: number;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'decimal' })
   costo_total: number;
 
   @ManyToOne(() => UsuarioEntity, { nullable: false })
