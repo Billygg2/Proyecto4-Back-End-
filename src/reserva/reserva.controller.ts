@@ -17,11 +17,25 @@ import { ReservaEntity } from './reserva.entity';
 
 @Controller('reserva')
 export class ReservaController {
-  constructor(private readonly reservaService: ReservaService) {}
+  constructor(private readonly reservaService: ReservaService) { }
 
   @Get()
   async getReservaList(): Promise<ReservaEntity[]> {
     return this.reservaService.getReservaList();
+  }
+
+  @Get(':id')
+  async getReservaById(
+    @Param('id') id_reserva: number,
+  ): Promise<ReservaEntity> {
+    return this.reservaService.getReservaById(id_reserva);
+  }
+
+  @Get('user/:id')
+  async getReservaUserById(
+    @Param('id_usuario') id_reserva: number,
+  ) {
+    return this.reservaService.getReservaUserList(id_reserva);
   }
 
   @Post()
@@ -30,13 +44,6 @@ export class ReservaController {
     @Body() nuevaReserva: CreateReservaDto,
   ): Promise<any> {
     return this.reservaService.createReserva(nuevaReserva);
-  }
-
-  @Get(':id')
-  async getReservaById(
-    @Param('id') id_reserva: number,
-  ): Promise<ReservaEntity> {
-    return this.reservaService.getReservaById(id_reserva);
   }
 
   @Delete(':id_reserva')

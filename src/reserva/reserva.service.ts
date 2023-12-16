@@ -25,7 +25,7 @@ export class ReservaService {
   ) { }
 
   async getReservaList(): Promise<ReservaEntity[]> {
-    const reservas = await this.reservaRepository.find({relations: ['usuario','mesa']});
+    const reservas = await this.reservaRepository.find({ relations: ['usuario', 'mesa'] });
     if (!reservas.length) {
       throw new NotFoundException('No existe un listado de reservas');
     }
@@ -36,7 +36,7 @@ export class ReservaService {
     const reservas = await this.reservaRepository.find({
       where: {
         usuario: id_usuario,
-      },
+      }, relations: ['usuario', 'mesa']
     });
     if (!reservas.length) {
       throw new NotFoundException('No tiene reservas disponibles');
