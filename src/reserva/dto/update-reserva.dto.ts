@@ -10,6 +10,8 @@ export class UpdateReservaDto {
   })
   fecha_registro_reserva?: Date;
 
+  nombre_reservacion: string;
+  
   @IsBoolean({ message: 'El campo estado debe ser un valor booleano' })
   estado?: boolean;
 

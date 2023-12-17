@@ -36,7 +36,7 @@ export class UsuarioEntity {
   @Column({ type: 'boolean', default: true, nullable: false })
   estado: boolean;
 
-  @Column({ type: 'double precision', default: 50.0, nullable: false })
+  @Column({ type: 'double precision', default: 100.0, nullable: false })
   saldo: number;
 
   @ManyToMany(() => TipoUsuarioEntity, (rol) => rol.tipo_usuario, {

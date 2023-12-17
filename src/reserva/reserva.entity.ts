@@ -20,6 +20,9 @@ export class ReservaEntity {
   @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   fecha_registro_reserva: Date;
 
+  @Column({ type: 'character varying' })
+  nombre_reservacion: string;
+
   @Column({ type: 'boolean', default: false, nullable: false })
   estado: boolean;
 

@@ -7,6 +7,8 @@ export class CreateReservaDto {
 
   fecha_registro_reserva: Date;
 
+  nombre_reservacion: string;
+
   @IsNotEmpty({ message: 'El campo estado no puede estar vacío' })
   @IsBoolean({ message: 'El campo estado debe ser un valor booleano' })
   estado: boolean;

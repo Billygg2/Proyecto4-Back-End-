@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -6,6 +7,8 @@ import {
   Param,
   Patch,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { NuevoUsuarioDto } from './dto/new-usuario.dto';
@@ -22,6 +25,7 @@ export class AuthController {
   }
 
   @Post('nuevo')
+  @UsePipes(new ValidationPipe())
   createUsuario(@Body() nuevaUsuario: NuevoUsuarioDto) {
     return this.authService.createUsuario(nuevaUsuario);
   }
