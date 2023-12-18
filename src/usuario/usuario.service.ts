@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   BadRequestException,
   Injectable,
@@ -68,6 +69,9 @@ export class UsuarioService {
   }
 
   async updateUsuario(id_usuario: number, usuario: UpdateUsuarioDto) {
-    this.usuarioRepository.update({ id_usuario }, usuario);
+    const { tipo_usuarioId, ...updateData } = usuario;
+    console.log(id_usuario, updateData);
+
+    // await this.authRepository.update(id, updateData);
   }
 }

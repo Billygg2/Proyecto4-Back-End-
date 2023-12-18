@@ -22,10 +22,12 @@ export class ReservaService {
     private readonly usuarioRepository: Repository<UsuarioEntity>,
     @InjectRepository(MesaEntity)
     private readonly mesaRepository: Repository<MesaEntity>,
-  ) { }
+  ) {}
 
   async getReservaList(): Promise<ReservaEntity[]> {
-    const reservas = await this.reservaRepository.find({ relations: ['usuario', 'mesa'] });
+    const reservas = await this.reservaRepository.find({
+      relations: ['usuario', 'mesa'],
+    });
     if (!reservas.length) {
       throw new NotFoundException('No existe un listado de reservas');
     }
@@ -35,8 +37,11 @@ export class ReservaService {
   async getReservaUserList(id_usuario): Promise<ReservaEntity[]> {
     const reservas = await this.reservaRepository.find({
       where: {
-        usuario: id_usuario,
-      }, relations: ['usuario', 'mesa']
+        usuario: {
+          id_usuario: id_usuario,
+        },
+      },
+      relations: ['usuario', 'mesa'],
     });
     if (!reservas.length) {
       throw new NotFoundException('No tiene reservas disponibles');
@@ -45,47 +50,49 @@ export class ReservaService {
   }
 
   async createReserva(reserva: CreateReservaDto): Promise<any> {
-    const { fecha_reserva, costo_total, id_usuario, id_mesa } = reserva;
-
-    const exists = await this.reservaRepository.findOne({
-      where: [{ fecha_reserva: fecha_reserva }],
-    });
-
-    if (exists) {
-      throw new BadRequestException(new MessageDto('Reserva ya registrado'));
-    }
+    const { costo_total, usuario, mesa } = reserva;
 
     const user = await this.usuarioRepository.findOne({
-      where: { id_usuario: id_usuario },
+      where: { id_usuario: usuario.id_usuario },
     });
 
     if (!user) {
-      throw new BadRequestException('El usuario no existe');
+      throw new BadRequestException(new MessageDto('El usuario no existe'));
     }
 
     const table = await this.mesaRepository.findOne({
-      where: { id_mesa: id_mesa },
+      where: { id_mesa: mesa.id_mesa },
     });
 
     if (!table) {
-      throw new BadRequestException('El usuario no existe');
+      throw new BadRequestException(new MessageDto('La mesa no existe'));
+    }
+
+    const existTable = await this.mesaRepository.findOne({
+      where: { id_mesa: mesa.id_mesa, estado: false },
+    });
+
+    if (existTable) {
+      throw new BadRequestException(new MessageDto('Mesa ocupada'));
     }
 
     if (user.saldo < costo_total) {
-      throw new Error('Saldo insuficiente');
+      throw new BadRequestException(new MessageDto('Saldo insuficiente'));
     }
+
+    table.estado = false;
+    await this.mesaRepository.save(table);
 
     user.saldo -= costo_total;
     await this.usuarioRepository.save(user);
 
     const newReserva = this.reservaRepository.create(reserva);
-    console.log(newReserva);
     newReserva.usuario = user;
     newReserva.mesa = table;
 
     await this.reservaRepository.save(newReserva);
 
-    return 'Reserva creada exitosamente';
+    return new MessageDto('Reserva creada exitosamente');
   }
 
   async getReservaById(id_reserva: number) {
@@ -93,6 +100,7 @@ export class ReservaService {
       where: {
         id_reserva,
       },
+      relations: ['mesa', 'usuario'],
     });
   }
 

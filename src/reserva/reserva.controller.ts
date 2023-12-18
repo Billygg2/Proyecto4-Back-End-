@@ -31,7 +31,7 @@ export class ReservaController {
     return this.reservaService.getReservaById(id_reserva);
   }
 
-  @Get('user/:id')
+  @Get('user/:id_usuario')
   async getReservaUserById(
     @Param('id_usuario') id_reserva: number,
   ) {

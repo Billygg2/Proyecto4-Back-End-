@@ -7,17 +7,20 @@ import {
   IsNumber,
   MaxLength,
   IsPositive,
+  IsOptional,
 } from 'class-validator';
 
 export class UpdateUsuarioDto {
+
+  id_usuario: number;
+  
   @IsString({ message: 'El campo nombres debe ser una cadena de texto' })
   nombres?: string;
 
   @IsString({ message: 'El campo apellidos debe ser una cadena de texto' })
   apellidos?: string;
 
-  @MinLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
-  @MaxLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
+
   contrasenia?: string;
 
   @IsPositive()
@@ -36,5 +39,6 @@ export class UpdateUsuarioDto {
   estado?: boolean;
 
   @IsNumber({}, { message: 'El campo tipo_usuario debe ser un número' })
-  tipo_usuario?: number;
+  @IsOptional()
+  tipo_usuarioId?: number;
 }

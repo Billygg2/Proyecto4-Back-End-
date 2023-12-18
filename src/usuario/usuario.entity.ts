@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {
   BeforeInsert,
-  BeforeUpdate,
   Column,
   Entity,
   JoinTable,
@@ -53,7 +52,6 @@ export class UsuarioEntity {
   reserva: ReservaEntity[];
 
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPasword() {
     if (!this.contrasenia) return;
     this.contrasenia = await hash(this.contrasenia, 12);

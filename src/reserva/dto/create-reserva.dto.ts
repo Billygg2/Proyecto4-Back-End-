@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsBoolean, IsNumber } from 'class-validator';
+import { MesaEntity } from 'src/mesa/mesa.entity';
+import { UsuarioEntity } from 'src/usuario/usuario.entity';
 
 export class CreateReservaDto {
   @IsNotEmpty({ message: 'El campo fecha_reserva no puede estar vacío' })
@@ -7,6 +9,7 @@ export class CreateReservaDto {
 
   fecha_registro_reserva: Date;
 
+  @IsNotEmpty({ message: 'El nombre de la persona de la reservacion no puede estar vacío' })
   nombre_reservacion: string;
 
   @IsNotEmpty({ message: 'El campo estado no puede estar vacío' })
@@ -21,7 +24,7 @@ export class CreateReservaDto {
   @IsNumber()
   costo_total: number;
 
-  id_usuario: number;
+  usuario: UsuarioEntity;
 
-  id_mesa: number;
+  mesa: MesaEntity;
 }

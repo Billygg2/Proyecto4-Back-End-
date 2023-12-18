@@ -2,22 +2,24 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {  
+import {
   DB_DATABASE,
   DB_HOST,
   DB_PASSWORD,
   DB_PORT,
-  DB_USER,} from './config/constans'
-
+  DB_USER,
+} from './config/constans';
 
 import { UsuarioModule } from './usuario/usuario.module';
 import { MesaModule } from './mesa/mesa.module';
 import { ReservaModule } from './reserva/reserva.module';
 import { TipoUsuarioModule } from './tipo_usuario/tipo_usuario.module';
 import { AuthModule } from './auth/auth.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
